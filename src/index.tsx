@@ -1,6 +1,7 @@
 import * as esbuild from "esbuild-wasm";
 import { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom";
+import { OnChange } from "@monaco-editor/react";
 
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
@@ -62,14 +63,22 @@ const App = () => {
     </html>
   `;
 
+  const onChange: OnChange = (value) => value && setInput(value);
+
   return (
     <div>
-      <CodeEditor />
-      <textarea value={input} onChange={(e) => setInput(e.target.value)}></textarea>
+      <CodeEditor value={input} onChange={onChange} />
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
-      <iframe title="preview" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+      <iframe
+        title="preview"
+        ref={iframe}
+        sandbox="allow-scripts"
+        srcDoc={html}
+        width="700px"
+        height="300px"
+      />
     </div>
   );
 };
