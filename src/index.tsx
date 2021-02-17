@@ -6,9 +6,10 @@ import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { fetchPlugin } from "./plugins/fetch-plugin";
 
 const App = () => {
+  const [input, setInput] = useState("");
+
   const ref = useRef<any>();
   const iframe = useRef<any>();
-  const [input, setInput] = useState("");
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -23,6 +24,8 @@ const App = () => {
 
   const onClick = async () => {
     if (!ref.current) return;
+
+    iframe.current.srcdoc = html;
 
     const result = await ref.current.build({
       entryPoints: ["index.js"],
@@ -64,7 +67,7 @@ const App = () => {
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
-      <iframe title="test" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
+      <iframe title="preview" ref={iframe} sandbox="allow-scripts" srcDoc={html} />
     </div>
   );
 };
