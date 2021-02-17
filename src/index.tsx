@@ -67,7 +67,11 @@ const App = () => {
 
   return (
     <div>
-      <CodeEditor value={input} onChange={onChange} />
+      <CodeEditor
+        value={input}
+        onChange={onChange}
+        setformat={(value) => setInput(value)}
+      />
       <div>
         <button onClick={onClick}>Submit</button>
       </div>
