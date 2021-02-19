@@ -36,7 +36,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ value, onChange, setformat }) =
       <MonacoEditor
         onChange={onChange}
         value={value}
-        height="400px"
+        height="100%"
         language="javascript"
         theme="vs-dark"
         options={{
