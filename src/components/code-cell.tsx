@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { OnChange } from "@monaco-editor/react";
 
 import CodeEditor from "./code-editor";
@@ -12,9 +13,19 @@ interface CodeCellProps {
 }
 
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
-  const { updateCell } = useActions();
+  const { updateCell, createBundle } = useActions();
 
   const bundle = useTypedSelector((state) => state.bundles[cell.id]);
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      createBundle(cell.id, cell.content);
+    }, 750);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [cell.content, cell.id, createBundle]);
 
   const onChange: OnChange = (value) => value && updateCell(cell.id, value);
 
@@ -31,7 +42,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
               setformat={(value) => updateCell(cell.id, value)}
             />
           </Resizable>
-          <Preview code={bundle?.code} err={bundle?.err} />
+          {bundle && <Preview code={bundle.code} err={bundle.err} />}
         </div>
       </Resizable>
     </div>
